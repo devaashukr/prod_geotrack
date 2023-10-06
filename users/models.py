@@ -3,7 +3,6 @@ from django.db import models
 from django.db.models.signals import post_save,pre_save
 from django.dispatch import receiver
 # import requests
-from .serializers import VehicleLocationSerializer
 
 class Operator(models.Model):
     username = models.CharField(max_length=100,unique=True)
@@ -21,21 +20,19 @@ class Operator(models.Model):
         return self.username
 
 class OperatorBuses(models.Model):
-    operator = models.ForeignKey(Operator, on_delete=models.SET_NULL, null=True, related_name='operator')
+    operator = models.ForeignKey(Operator, on_delete=models.CASCADE, null=True, related_name='operator')
     deviceid = models.CharField(db_index=True)
     tracker_approved = models.BooleanField(default=False)
     bus_no = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.bus_no
+        return self.deviceid
 
     class Meta:
         db_table = 'operator_buses'
 
 import json
-
-
 @receiver(post_save, sender=Operator)
 def operator_register_signal(sender, instance, created, **kwargs):
     username = instance.username
