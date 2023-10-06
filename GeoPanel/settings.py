@@ -84,29 +84,29 @@ WSGI_APPLICATION = "GeoPanel.wsgi.application"
 # }
 
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "HOST": 'geotracker-panel.ckp07u2jsmkv.ap-south-1.rds.amazonaws.com',
-#         "PORT": 5432,
-#         "NAME": 'postgres',
-#         "USER": 'apnibus',
-#         "PASSWORD": 'Ilvz99xsj4E4Gr9MmEyY',
-#         "OPTIONS": {"sslmode": "require"},
-#     }
-# }
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "HOST": '127.0.0.1',
+        "HOST": 'geotracker-panel.ckp07u2jsmkv.ap-south-1.rds.amazonaws.com',
         "PORT": 5432,
-        "NAME": 'geotracker_local',
-        "USER": 'postgres',
-        "PASSWORD": 'Aashu@77',
-        "OPTIONS": {"sslmode": "disable"},
+        "NAME": 'geotracker',
+        "USER": 'apnibus',
+        "PASSWORD": 'admin123',
+        "OPTIONS": {"sslmode": "require"},
     }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "HOST": '127.0.0.1',
+#         "PORT": 5432,
+#         "NAME": 'geotracker_local',
+#         "USER": 'postgres',
+#         "PASSWORD": 'Aashu@77',
+#         "OPTIONS": {"sslmode": "disable"},
+#     }
+# }
 
 
 # Password validation
