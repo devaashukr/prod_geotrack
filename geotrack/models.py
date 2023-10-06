@@ -33,7 +33,7 @@ class GeoDevDetail(models.Model):
 
 class ErrorDetail(models.Model):
     operator = models.ForeignKey(Operator, on_delete=models.CASCADE,null=True)
-    busdeviceid = models.ForeignKey(OperatorBuses, on_delete=models.CASCADE, null=True)
+    # busdeviceid = models.ForeignKey(OperatorBuses, on_delete=models.CASCADE, null=True)
     error = models.TextField(blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from .models import OperatorBuses,Operator
 from django.db.models import F
 import requests
-from .models import GeoDevDetail
+from .models import GeoDevDetail,ErrorDetail
 
 class GeoBusPosition(APIView):
     def get(self,request):
@@ -46,10 +46,14 @@ class GeoBusPosition(APIView):
                                 pass
 
                     else:
-                        pass
+                        errorLst = [response.status_code, response.headers, response.content]
+                        json_error_res = json.dumps(errorLst)
+                        error_obj = ErrorDetail.objects.create(operator_id=user.id, error=json_error_res)
+                        error_obj.save()
 
                 except:
-                    pass
+                    error_obj = ErrorDetail.objects.create(operator_id=user.id, error="api does not working")
+                    error_obj.save()
 
             except:
                 pass
