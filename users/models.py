@@ -51,10 +51,8 @@ def operator_register_signal(sender, instance, created, **kwargs):
             data_str = content.decode('utf-8')
             data_dict = json.loads(data_str)
 
-            # Decode the existing bus_details to a Python data structure
             existing_data = json.loads(user.bus_details) if user.bus_details else None
 
-            # Check if bus_details has changed
             if existing_data != data_dict:
                 user.bus_details = data_str
                 user.save()
@@ -63,7 +61,6 @@ def operator_register_signal(sender, instance, created, **kwargs):
             errorLst = [response.status_code, response.headers, response.content]
             json_error_res = json.dumps(errorLst)
 
-            # Check if bus_details has changed
             if user.bus_details != json_error_res:
                 user.bus_details = json_error_res
                 user.save()
