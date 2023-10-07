@@ -7,15 +7,14 @@ from .models import GeoDevDetail,ErrorDetail
 
 class GeoBusPosition(APIView):
     def get(self,request):
-        busses = OperatorBuses.objects.filter(tracker_approved=True).annotate(operator_id_fk=F('operator__id'))
+        busses = OperatorBuses.objects.filter(operator__is_traccar_approved=True).annotate(operator_id_fk=F('operator__id'))
         operator_ids = busses.values_list('operator_id_fk', flat=True)
         operator_ids = set(operator_ids)
-        # deviceids = busses.values_list('deviceid', flat=True)
         busno_devid_mp = {}
         for bus in busses:
             busno_devid_mp[bus.bus_no] = int(bus.deviceid)
 
-        # bus_nos = [bus.bus_no for bus in busses]
+
         for user_id in operator_ids:
             try:
                 user = Operator.objects.get(id=user_id)
@@ -25,7 +24,6 @@ class GeoBusPosition(APIView):
                         response_json = json.loads(response.content)
                         key_lst = list(response_json.keys())
                         key_lst = [key for key in key_lst if key in busno_devid_mp.keys()]
-                        # print("the key_list are new111", key_lst)
                         for bus_key in key_lst:
                             data = response_json[bus_key]
                             operator_busid = OperatorBuses.objects.get(deviceid=busno_devid_mp[bus_key])
@@ -52,7 +50,7 @@ class GeoBusPosition(APIView):
                         error_obj.save()
 
                 except:
-                    error_obj = ErrorDetail.objects.create(operator_id=user.id, error="api does not working")
+                    error_obj = ErrorDetail.objects.create(operator_id=user.id, error="GeoTracker API does not work")
                     error_obj.save()
 
             except:
